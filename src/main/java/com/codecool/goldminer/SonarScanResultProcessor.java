@@ -6,28 +6,27 @@ import java.io.IOException;
 
 public class SonarScanResultProcessor {
 
-    public SurveyReport process(){
+    public SurveyReport process(String filePatch){
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(PATH));
+            BufferedReader br = new BufferedReader(new FileReader(filePatch));
             String st = br.readLine();
+            SurveyReport surveyReport = new SurveyReport();
             while (st != null) {
-                String[] loadRow = st.split(";");
+                char[] loadRow = st.toCharArray();
 
-                int id = Integer.parseInt(loadRow[0]);
-                String currency = loadRow[1];
-                System.out.println(id);
-                System.out.println(currency);
+                for(int i = 0; i < loadRow.length; i++){
+                    if(loadRow[i] == 'g'){
+                        surveyReport.setGoldCount(surveyReport.getGoldCount() + 1);
+                        if(i != loadRow.length-1 && (loadRow[i-1] == ' ' || loadRow[i+1] == ' ')) {
+                            surveyReport.setEasyGoldCount(surveyReport.getEasyGoldCount() + 1);
+                        }
+                    }
 
-                Cart cart = new Cart(currency);
-                cart.setId(id);
-
-                data.add(cart);
-
+                }
                 st = br.readLine();
             }
-            System.out.println(data);
-
+            return surveyReport;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

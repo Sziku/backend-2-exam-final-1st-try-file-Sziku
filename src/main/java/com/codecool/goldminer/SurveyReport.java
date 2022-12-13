@@ -8,7 +8,15 @@ public class SurveyReport {
         return EasyGoldCount;
     }
 
+    public void setEasyGoldCount(int easyGoldCount) {
+        EasyGoldCount = easyGoldCount;
+    }
+
     public int getGoldCount() {
         return GoldCount;
+    }
+
+    public void setGoldCount(int goldCount) {
+        GoldCount = goldCount;
     }
 }
