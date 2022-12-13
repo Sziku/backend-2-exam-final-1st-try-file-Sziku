@@ -14,16 +14,20 @@ public class SonarScanResultProcessor {
             SurveyReport surveyReport = new SurveyReport();
             while (st != null) {
                 char[] loadRow = st.toCharArray();
-
-                for(int i = 0; i < loadRow.length; i++){
-                    if(loadRow[i] == 'g'){
-                        surveyReport.setGoldCount(surveyReport.getGoldCount() + 1);
-                        if(i != loadRow.length-1 && (loadRow[i-1] == ' ' || loadRow[i+1] == ' ')) {
-                            surveyReport.setEasyGoldCount(surveyReport.getEasyGoldCount() + 1);
+                if(loadRow.length > 0){
+                    for(int i = 0; i < loadRow.length; i++){
+                        if(loadRow[i] == 'g'){
+                            surveyReport.setGoldCount(surveyReport.getGoldCount() + 1);
+                            if(i < loadRow.length-1 && i > 0){
+                                if(loadRow[i-1] == ' ' || loadRow[i+1] == ' '){
+                                    surveyReport.setEasyGoldCount(surveyReport.getEasyGoldCount() + 1);
+                                }
+                            }
                         }
-                    }
 
+                    }
                 }
+
                 st = br.readLine();
             }
             return surveyReport;
